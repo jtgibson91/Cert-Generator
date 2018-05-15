@@ -1,6 +1,6 @@
 # Cert-Generator
 
-This program automates the process of creating Certificates of Anlysis using docx-Mailmerge for Python. Mailmerge is a process of creating a template file in MS Word and filling that template with whatever data you want, using a Python script. 
+This program automates the process of creating Certificates of Anlysis using docx-Mailmerge for Python. Mailmerge is a process of creating a template file in MS Word and filling that template with whatever data you want, using a Python script. In my case, the data is gathered from a Gas Chromatography (TCD detector) analyzing liquid nitrogen & other gaseous mixtures. At the present time, the two samples this program can generate CofAs for are 'liquid nitrogen' and '10% CO2 balance air mixture'.
 
 This program does the following:
   - Takes data stored in a text (.LOG) file, processes it, and inserts it into the .docx template
