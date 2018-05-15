@@ -22,7 +22,7 @@ Third Party Modules
   
 ## Who is it for?
 
-I made this for myself and co-workers to use at work as a QC chemists at an industrial compressed gas company. It will make my life a little easier.
+I made this for myself and co-workers to use at work as QC chemists at an industrial compressed gas company. It will make my life a little easier.
 
 ## Created By
 
