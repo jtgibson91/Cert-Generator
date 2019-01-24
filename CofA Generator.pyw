@@ -1,3 +1,4 @@
+#from __future__ import print_function
 import tkinter as tk
 from tkinter import ttk
 import tkinter.messagebox
@@ -7,12 +8,15 @@ import win32api
 from cylinderClasses import CO2Air, Nitrogen
 from win32com import client
 import inspect
+from decimal import Decimal
 
+# Test log
+#RESULTSLOG = r'.\CH2.LOG'
 RESULTSLOG = r'C:\peak454-64bitWin8\Calibration Result Logs\CH2.LOG'
-CO2AIRTEMPLATE8 = r"C:\Users\Lab\James\CS\Python\Cert Generator\Templates\8xCO2Air10Template.docx"
-CO2AIRTEMPLATE16 = r"C:\Users\Lab\James\CS\Python\Cert Generator\Templates\16xCO2Air10Template.docx"
-N2TEMPLATE = r"C:\Users\Lab\James\CS\Python\Cert Generator\Templates\N2Template.docx"
-VERICELCERTDIRECTORY = r"C:\Users\Lab\Desktop\CERTIFICATES OF ANALYSIS\GENZYME-VERICEL\2018\\"
+CO2AIRTEMPLATE8 = r"C:\gtj\James\CS\Python\Cert Generator\Templates\8xCO2Air10Template.docx"
+CO2AIRTEMPLATE16 = r"C:\gtj\James\CS\Python\Cert Generator\Templates\16xCO2Air10Template.docx"
+N2TEMPLATE = r"C:\gtj\James\CS\Python\Cert Generator\Templates\N2Template.docx"
+VERICELCERTDIRECTORY = r"C:\Users\Lab\Desktop\CERTIFICATES OF ANALYSIS\GENZYME-VERICEL\2019\\"
 
 VERICELCO2AIRPO = "PO14975"
 
@@ -188,7 +192,7 @@ class Application(tk.Frame):
         self.separator6b.grid_propagate(0)
 
         # Generate CofA button
-        self.generateCofA = ttk.Button(self.left, text="Generate CofA", command=self.generate_co2Air_cert)
+        self.generateCofA = ttk.Button(self.left, text="Generate Cert", command=self.generate_co2Air_cert)
         self.generateCofA.grid(row=26, column=0, rowspan=2)
 
         # 'Print' option
@@ -398,8 +402,8 @@ class Application(tk.Frame):
             # Extract cylinder data into individual CO2Air obj's and add them to a list
             for items in resultsLog:
                 items = items.split()
-                newCylItem = CO2Air(items[5], items[6], items[11],
-                                    items[17], items[23])
+                newCylItem = CO2Air(items[5], items[6], self.round_to_3(items[11]),
+                                    self.round_to_3(items[17]), self.round_to_3(items[23]))
                 cylinderItems.append(newCylItem)
 
             # MS word template document
@@ -499,8 +503,13 @@ class Application(tk.Frame):
 
 
             # Save document
-            # At work it will be: "Vericel CofA path\" + self.filename
             document.write(VERICELCERTDIRECTORY + self.filename)
+            if self.openInWordVar.get() == 0 and self.printVar.get() == 0:
+                # Report success
+                tk.messagebox.showinfo(
+                "Success",
+                "%s created." % self.filename
+                )
 
             # If user has checked 'Open in Word' checkbutton, then launch file in MS Word using
             # pywin32 (win32 api)
@@ -673,19 +682,29 @@ class Application(tk.Frame):
 
     def print_word_document(self, filename):
         """ Uses COM wrappers from pywin32 to print the file to the default printer, in the background (w/o opening Word) """
-        
+    
         word = client.Dispatch("Word.Application")
         word.Documents.Open(filename)
         # The first argument is Background. Takes True or False. True prints in background (w/o opening Word)
         word.ActiveDocument.PrintOut(True)
         word.Quit()
 
+    def round_to_3(self, number):
+        """ Rounds to 3 decimal places (not 3 and SOMETIMES 2). In other words it doesn't cut off zeros.
+        Input: number - a numerical string (10-99) to be rounded from 4 places after the decimal down to 3.
+        Output: newNumber - a numerical string rounded to 3 places after the decimal point.
+        """
+        # Must convert 'number' from string to a Decimal
+        amount = Decimal(number)
+	
+        return str(amount.quantize(Decimal("0.001")))
+
+
 
 
 root = tk.Tk()
 root.title("CofA Generator")
-root.iconbitmap(r'C:\Users\Lab\James\CS\Python\Cert Generator\cert.ico')
-root.config(bg="cyan2")
+root.iconbitmap(r'C:\gtj\James\CS\Python\Cert Generator\cert.ico')
 app = Application(master=root)
 app.master.geometry("450x300")
 
