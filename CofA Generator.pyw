@@ -10,15 +10,16 @@ from win32com import client
 import inspect
 from decimal import Decimal
 
-# Test log
+# Test log: REPLACE WITH DESKTOP ENVIRONMENT'S PATHS
 #RESULTSLOG = r'.\CH2.LOG'
-RESULTSLOG = r'C:\peak454-64bitWin8\Calibration Result Logs\CH2.LOG'
-CO2AIRTEMPLATE8 = r"C:\gtj\James\CS\Python\Cert Generator\Templates\8xCO2Air10Template.docx"
-CO2AIRTEMPLATE16 = r"C:\gtj\James\CS\Python\Cert Generator\Templates\16xCO2Air10Template.docx"
-N2TEMPLATE = r"C:\gtj\James\CS\Python\Cert Generator\Templates\N2Template.docx"
-VERICELCERTDIRECTORY = r"C:\Users\Lab\Desktop\CERTIFICATES OF ANALYSIS\GENZYME-VERICEL\2019\\"
+RESULTSLOG = None
+CO2AIRTEMPLATE8 = None
+CO2AIRTEMPLATE16 = None
+N2TEMPLATE = None
+VERICELCERTDIRECTORY = None
 
-VERICELCO2AIRPO = "PO14975"
+# Test log: REPLACE WITH THE CUSTOMER'S ACCOUNT PO #
+VERICELCO2AIRPO = None
 
 class Application(tk.Frame):
     def __init__(self, master=None):
